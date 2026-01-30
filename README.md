@@ -355,6 +355,26 @@ npm run deploy
 
 The `AI_GATEWAY_*` variables take precedence over `ANTHROPIC_*` if both are set.
 
+## Custom skills and XD5 webhook (Zoé)
+
+This fork adds OpenClaw skills for family calendar, Drive search, coding agent, personal assist, and XD5 monitoring. It also adds a **public** webhook so an XD5 router or external sender can POST events and receive Telegram alerts.
+
+### XD5 webhook
+
+- **URL:** `POST https://<your-worker>.<subdomain>.workers.dev/api/webhooks/xd5`
+- **Header:** `X-XD5-Secret: <XD5_WEBHOOK_SECRET>` (set via `npx wrangler secret put XD5_WEBHOOK_SECRET`)
+- **Body (JSON):** `{ "events": [ { "type": "disassoc"|"roamast"|"weak_signal", "mac": "...", "rssi": number, "message": "..." } ] }`
+- **Telegram alerts:** Set `XD5_ALERT_CHAT_ID` to the Telegram chat ID that should receive alerts (e.g. from @userinfobot).
+
+### Extra skills (optional secrets)
+
+Skills live in `skills/` and are copied into the container. They use these optional env vars (set via `wrangler secret put`):
+
+- **family-hub:** `GOOGLE_CALENDAR_ID`, `GOOGLE_CREDENTIALS_JSON`, `SUPABASE_URL`, `SUPABASE_ANON_KEY`
+- **drive-search:** `GOOGLE_CREDENTIALS_JSON` (and optionally `GOOGLE_DRIVE_FOLDER_ID`)
+- **coding-agent:** `GITHUB_TOKEN`, `LINEAR_API_KEY`, `POSTHOG_API_KEY`, `POSTHOG_HOST`
+- **xd5-monitor:** `XD5_WEBHOOK_SECRET`, `XD5_ALERT_CHAT_ID` (for webhook + alerts)
+
 ## All Secrets Reference
 
 | Secret | Required | Description |
@@ -381,6 +401,16 @@ The `AI_GATEWAY_*` variables take precedence over `ANTHROPIC_*` if both are set.
 | `SLACK_APP_TOKEN` | No | Slack app token |
 | `CDP_SECRET` | No | Shared secret for CDP endpoint authentication (see [Browser Automation](#optional-browser-automation-cdp)) |
 | `WORKER_URL` | No | Public URL of the worker (required for CDP) |
+| `GOOGLE_CALENDAR_ID` | No | Google Calendar ID for family-hub (e.g. `primary`) |
+| `GOOGLE_CREDENTIALS_JSON` | No | Google service account JSON string for Calendar/Drive skills |
+| `SUPABASE_URL` | No | Supabase project URL for family-hub tasks/grocery |
+| `SUPABASE_ANON_KEY` | No | Supabase anon key for family-hub |
+| `GITHUB_TOKEN` | No | GitHub token for coding-agent |
+| `LINEAR_API_KEY` | No | Linear API key for coding-agent |
+| `POSTHOG_API_KEY` | No | Posthog API key for coding-agent |
+| `POSTHOG_HOST` | No | Posthog host (e.g. `https://app.posthog.com`) |
+| `XD5_WEBHOOK_SECRET` | No | Secret for XD5 webhook (header `X-XD5-Secret`) |
+| `XD5_ALERT_CHAT_ID` | No | Telegram chat ID to receive XD5 alerts |
 
 ## Security Considerations
 

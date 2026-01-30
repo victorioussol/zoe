@@ -55,6 +55,16 @@ export function buildEnvVars(env: MoltbotEnv): Record<string, string> {
   if (env.SLACK_APP_TOKEN) envVars.SLACK_APP_TOKEN = env.SLACK_APP_TOKEN;
   if (env.CDP_SECRET) envVars.CDP_SECRET = env.CDP_SECRET;
   if (env.WORKER_URL) envVars.WORKER_URL = env.WORKER_URL;
+  // Skill secrets (for OpenClaw skills in container)
+  if (env.GOOGLE_CALENDAR_ID) envVars.GOOGLE_CALENDAR_ID = env.GOOGLE_CALENDAR_ID;
+  if (env.GOOGLE_CREDENTIALS_JSON) envVars.GOOGLE_CREDENTIALS_JSON = env.GOOGLE_CREDENTIALS_JSON;
+  if (env.SUPABASE_URL) envVars.SUPABASE_URL = env.SUPABASE_URL;
+  if (env.SUPABASE_ANON_KEY) envVars.SUPABASE_ANON_KEY = env.SUPABASE_ANON_KEY;
+  if (env.GITHUB_TOKEN) envVars.GITHUB_TOKEN = env.GITHUB_TOKEN;
+  if (env.LINEAR_API_KEY) envVars.LINEAR_API_KEY = env.LINEAR_API_KEY;
+  if (env.POSTHOG_API_KEY) envVars.POSTHOG_API_KEY = env.POSTHOG_API_KEY;
+  if (env.POSTHOG_HOST) envVars.POSTHOG_HOST = env.POSTHOG_HOST;
+  if (env.XD5_WEBHOOK_SECRET) envVars.XD5_WEBHOOK_SECRET = env.XD5_WEBHOOK_SECRET;
 
   return envVars;
 }

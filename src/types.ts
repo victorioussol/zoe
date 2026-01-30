@@ -37,6 +37,18 @@ export interface MoltbotEnv {
   BROWSER?: Fetcher;
   CDP_SECRET?: string; // Shared secret for CDP endpoint authentication
   WORKER_URL?: string; // Public URL of the worker (for CDP endpoint)
+  // Skill secrets (passed to container for OpenClaw skills)
+  GOOGLE_CALENDAR_ID?: string;
+  GOOGLE_CREDENTIALS_JSON?: string;
+  SUPABASE_URL?: string;
+  SUPABASE_ANON_KEY?: string;
+  GITHUB_TOKEN?: string;
+  LINEAR_API_KEY?: string;
+  POSTHOG_API_KEY?: string;
+  POSTHOG_HOST?: string;
+  // XD5 webhook (public route; sender posts here)
+  XD5_WEBHOOK_SECRET?: string;
+  XD5_ALERT_CHAT_ID?: string; // Telegram chat ID to receive XD5 alerts
 }
 
 /**
